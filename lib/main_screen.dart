@@ -1,27 +1,47 @@
 import 'package:flutter/material.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+import 'input_screen.dart';
+import 'setting_screen.dart';
+
+class BattleRecordPage extends StatefulWidget {
+  BattleRecordPage({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _BattleRecordPageState createState() => _BattleRecordPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _BattleRecordPageState extends State<BattleRecordPage> {
+  int _selectedIndex = 0;
 
-  void _incrementCounter() {
+  void _onItemTapped(int index) {
     setState(() {
-      _counter++;
+      _selectedIndex = index;
     });
+    switch (index) {
+      case 0:
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return BattleRecordPage();
+        }));
+        break;
+      case 1:
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return InputPage();
+        }));
+        break;
+      case 2:
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return SettingPage();
+        }));
+        break;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("戦績"),
       ),
       body: Center(
         child: Column(
@@ -30,17 +50,27 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.insert_chart),
+            title: Text('戦績'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.input),
+            title: Text('入力'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            title: Text('設定'),
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
       ),
     );
   }
