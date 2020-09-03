@@ -4,9 +4,6 @@ import 'input_screen.dart';
 import 'main_screen.dart';
 
 class SettingPage extends StatefulWidget {
-  SettingPage({Key key, this.title}) : super(key: key);
-  final String title;
-
   @override
   _SettingPageState createState() => _SettingPageState();
 }
@@ -21,7 +18,7 @@ class _SettingPageState extends State<SettingPage> {
     switch (index) {
       case 0:
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return BattleRecordPage();
+          return BattleRecordPage([]);
         }));
         break;
       case 1:
@@ -68,7 +65,7 @@ class _SettingPageState extends State<SettingPage> {
             title: Text('設定'),
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: 2,
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
       ),
