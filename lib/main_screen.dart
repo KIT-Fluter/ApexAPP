@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'input_screen.dart';
+import 'rank_charts.dart';
 import 'setting_screen.dart';
 
 class BattleRecordPage extends StatefulWidget {
@@ -22,19 +23,28 @@ class _BattleRecordPageState extends State<BattleRecordPage> {
     });
     switch (index) {
       case 0:
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return BattleRecordPage([]);
-        }));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BattleRecordPage([])),
+        );
         break;
       case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return InputPage();
-        }));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => InputPage()),
+        );
         break;
       case 2:
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return SettingPage();
-        }));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SettingPage()),
+        );
+        break;
+      case 3:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => RankChartPage()),
+        );
         break;
     }
   }
@@ -50,6 +60,7 @@ class _BattleRecordPageState extends State<BattleRecordPage> {
         width: double.infinity,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.insert_chart),
@@ -63,10 +74,15 @@ class _BattleRecordPageState extends State<BattleRecordPage> {
             icon: Icon(Icons.settings),
             title: Text('設定'),
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.equalizer),
+            title: Text('ランク'),
+          ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
+        backgroundColor: Colors.blue,
       ),
     );
   }

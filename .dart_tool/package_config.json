@@ -26,6 +26,18 @@
       "languageVersion": "2.0"
     },
     {
+      "name": "charts_common",
+      "rootUri": "file:///Users/watanabeshou/Documents/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/charts_common-0.9.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.3"
+    },
+    {
+      "name": "charts_flutter",
+      "rootUri": "file:///Users/watanabeshou/Documents/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/charts_flutter-0.9.0",
+      "packageUri": "lib/",
+      "languageVersion": "1.23"
+    },
+    {
       "name": "clock",
       "rootUri": "file:///Users/watanabeshou/Documents/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/clock-1.0.1",
       "packageUri": "lib/",
@@ -122,8 +134,20 @@
       "languageVersion": "2.3"
     },
     {
+      "name": "intl",
+      "rootUri": "file:///Users/watanabeshou/Documents/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.16.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.5"
+    },
+    {
       "name": "js",
       "rootUri": "file:///Users/watanabeshou/Documents/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/js-0.6.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "logging",
+      "rootUri": "file:///Users/watanabeshou/Documents/flutter/flutter/.pub-cache/hosted/pub.dartlang.org/logging-0.11.4",
       "packageUri": "lib/",
       "languageVersion": "2.0"
     },
@@ -224,7 +248,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2020-09-03T10:23:02.213918Z",
+  "generated": "2020-09-04T11:23:58.061328Z",
   "generator": "pub",
   "generatorVersion": "2.9.1"
 }
