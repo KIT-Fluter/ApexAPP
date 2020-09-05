@@ -18,7 +18,9 @@ class RankChartPage extends StatefulWidget {
 class _RankChartPageState extends State<RankChartPage> {
   int _selectedIndex = 0;
   int rank_point = 0;
-  List<int> rank_point_list = [];
+  int count = 0;
+  int sum = 0;
+  List<LinearSales> rank_point_list = [];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -61,7 +63,7 @@ class _RankChartPageState extends State<RankChartPage> {
               child: Column(
                 children: <Widget>[
                   TextFormField(
-                    decoration: InputDecoration(labelText: "ダメージ数"),
+                    decoration: InputDecoration(labelText: "ポイント"),
                     //TODO: 重たくなるので代替案を考える
                     onChanged: (value) {
                       rank_point = int.parse(value);
@@ -70,15 +72,17 @@ class _RankChartPageState extends State<RankChartPage> {
                   RaisedButton(
                       child: Text("戦績の追加"),
                       onPressed: () {
-                        rank_point_list.add(rank_point);
-                        print(rank_point_list);
+                        count++;
+                        //rank_point_list.add([count, rank_point]);
+                        sum += rank_point;
+                        rank_point_list.add(LinearSales(count - 1, sum));
                       }),
                 ],
               ),
             ),
           ),
           Container(
-            child: SimpleTimeSeriesChart.withSampleData(),
+            child: SimpleLineChart(_chartData(rank_point_list)),
             height: 400,
           )
           //TODO: ListViewがおかしいので修正
@@ -121,15 +125,16 @@ class _RankChartPageState extends State<RankChartPage> {
 }
 
 //TODO: Chartの理解
-class SimpleTimeSeriesChart extends StatelessWidget {
+//後々はDataChartに変更
+class SimpleLineChart extends StatelessWidget {
   final List<charts.Series> seriesList;
   final bool animate;
 
-  SimpleTimeSeriesChart(this.seriesList, {this.animate});
+  SimpleLineChart(this.seriesList, {this.animate});
 
-  /// Creates a [TimeSeriesChart] with sample data and no transition.
-  factory SimpleTimeSeriesChart.withSampleData() {
-    return new SimpleTimeSeriesChart(
+  /// Creates a [LineChart] with sample data and no transition.
+  factory SimpleLineChart.withSampleData() {
+    return new SimpleLineChart(
       _createSampleData(),
       // Disable animations for image tests.
       animate: false,
@@ -138,41 +143,51 @@ class SimpleTimeSeriesChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new charts.TimeSeriesChart(
-      seriesList,
-      animate: animate,
-      // Optionally pass in a [DateTimeFactory] used by the chart. The factory
-      // should create the same type of [DateTime] as the data provided. If none
-      // specified, the default creates local date time.
-      dateTimeFactory: const charts.LocalDateTimeFactory(),
-    );
+    return new charts.LineChart(seriesList, animate: animate);
   }
 
   /// Create one series with sample hard coded data.
-  static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData() {
+  static List<charts.Series<LinearSales, int>> _createSampleData() {
     final data = [
-      new TimeSeriesSales(new DateTime(2017, 9, 19), 5),
-      new TimeSeriesSales(new DateTime(2017, 9, 26), 25),
-      new TimeSeriesSales(new DateTime(2017, 10, 3), 100),
-      new TimeSeriesSales(new DateTime(2017, 10, 10), 75),
+      new LinearSales(0, 5),
+      new LinearSales(1, 25),
+      new LinearSales(2, 100),
+      new LinearSales(3, 75),
     ];
 
     return [
-      new charts.Series<TimeSeriesSales, DateTime>(
+      new charts.Series<LinearSales, int>(
         id: 'Sales',
         colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (TimeSeriesSales sales, _) => sales.time,
-        measureFn: (TimeSeriesSales sales, _) => sales.sales,
+        domainFn: (LinearSales sales, _) => sales.year,
+        measureFn: (LinearSales sales, _) => sales.sales,
         data: data,
       )
     ];
   }
 }
 
-/// Sample time series data type.
-class TimeSeriesSales {
-  final DateTime time;
+/// Sample linear data type.
+class LinearSales {
+  final int year;
   final int sales;
 
-  TimeSeriesSales(this.time, this.sales);
+  LinearSales(this.year, this.sales);
+}
+
+void createChartData(dynamic chart_data, List rank_list, int index) {
+  chart_data.add(LinearSales(3000 + rank_list[index][0], rank_list[index][1]));
+}
+
+List<charts.Series<LinearSales, int>> _chartData(
+    List<LinearSales> rank_point_list) {
+  return [
+    new charts.Series<LinearSales, int>(
+      id: 'Sales',
+      colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+      domainFn: (LinearSales sales, _) => sales.year,
+      measureFn: (LinearSales sales, _) => sales.sales,
+      data: rank_point_list,
+    )
+  ];
 }
