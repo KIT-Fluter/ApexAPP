@@ -6,13 +6,13 @@ import 'main_screen.dart';
 import 'setting_screen.dart';
 
 class RankChartPage extends StatefulWidget {
-  RankChartPage({Key key, this.title}) : super(key: key);
-  final String title;
+  RankChartPage(this.data);
+  List<LinearSales> data;
   //RankChartRecordPage(this.score);
   //final List score;
 
   @override
-  _RankChartPageState createState() => _RankChartPageState();
+  _RankChartPageState createState() => _RankChartPageState(this.data);
 }
 
 class _RankChartPageState extends State<RankChartPage> {
@@ -21,6 +21,7 @@ class _RankChartPageState extends State<RankChartPage> {
   int count = 0;
   int sum = 0;
   List<LinearSales> rank_point_list = [];
+  _RankChartPageState(this.rank_point_list);
 
   void _onItemTapped(int index) {
     setState(() {
@@ -44,7 +45,7 @@ class _RankChartPageState extends State<RankChartPage> {
         break;
       case 3:
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return RankChartPage();
+          return RankChartPage([]);
         }));
         break;
     }

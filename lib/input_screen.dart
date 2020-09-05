@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'main_screen.dart';
+import 'rank_charts.dart';
 import 'setting_screen.dart';
 
 class InputPage extends StatefulWidget {
@@ -14,6 +15,10 @@ class _InputPageState extends State<InputPage> {
   int killCount = 0;
   int deathCount = 0;
   List lists = [];
+  int rank_point = 0;
+  int count = 0;
+  int sum = 0;
+  List<LinearSales> rank_point_list = [];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -83,19 +88,44 @@ class _InputPageState extends State<InputPage> {
                 },
               ),
               RaisedButton(
-                  child: Text("戦績の追加"),
-                  onPressed: () {
-                    lists = [damage, killCount, deathCount];
-                    print(lists);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return BattleRecordPage([]);
-                        },
-                      ),
-                    );
-                  }),
+                child: Text("戦績の追加"),
+                onPressed: () {
+                  lists = [damage, killCount, deathCount];
+                  print(lists);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return BattleRecordPage([]);
+                      },
+                    ),
+                  );
+                },
+              ),
+              TextFormField(
+                decoration: InputDecoration(labelText: "ポイント"),
+                //TODO: 重たくなるので代替案を考える
+                onChanged: (value) {
+                  rank_point = int.parse(value);
+                },
+              ),
+              RaisedButton(
+                child: Text("戦績の追加"),
+                onPressed: () {
+                  count++;
+                  //rank_point_list.add([count, rank_point]);
+                  sum += rank_point;
+                  rank_point_list.add(LinearSales(count - 1, sum));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return RankChartPage(rank_point_list);
+                      },
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),

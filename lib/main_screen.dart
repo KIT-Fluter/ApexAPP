@@ -43,7 +43,7 @@ class _BattleRecordPageState extends State<BattleRecordPage> {
       case 3:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => RankChartPage()),
+          MaterialPageRoute(builder: (context) => RankChartPage([])),
         );
         break;
     }
