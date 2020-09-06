@@ -1,5 +1,7 @@
+import 'package:apex_app/rank_chart_model.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'input_screen.dart';
 import 'main_screen.dart';
@@ -53,73 +55,80 @@ class _RankChartPageState extends State<RankChartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("ランク"),
-      ),
-      body: Column(
-        children: <Widget>[
-          Center(
-            child: Form(
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    decoration: InputDecoration(labelText: "ポイント"),
-                    //TODO: 重たくなるので代替案を考える
-                    onChanged: (value) {
-                      rank_point = int.parse(value);
-                    },
+    return ChangeNotifierProvider(
+      create: (_) => RankChartModel()..fetchRank(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("ランク"),
+        ),
+        body: Consumer<RankChartModel>(builder: (context, model, child) {
+          return Column(
+            children: <Widget>[
+              Center(
+                child: Form(
+                  child: Column(
+                    children: <Widget>[
+                      Text(model.aa),
+                      TextFormField(
+                        decoration: InputDecoration(labelText: "ポイント"),
+                        //TODO: 重たくなるので代替案を考える
+                        onChanged: (value) {
+                          rank_point = int.parse(value);
+                        },
+                      ),
+                      RaisedButton(
+                          child: Text("戦績の追加"),
+                          onPressed: () {
+                            model.changeAA();
+                            //count++;
+                            //rank_point_list.add([count, rank_point]);
+                            //sum += rank_point;
+                            //rank_point_list.add(LinearSales(count - 1, sum));
+                          }),
+                    ],
                   ),
-                  RaisedButton(
-                      child: Text("戦績の追加"),
-                      onPressed: () {
-                        count++;
-                        //rank_point_list.add([count, rank_point]);
-                        sum += rank_point;
-                        rank_point_list.add(LinearSales(count - 1, sum));
-                      }),
-                ],
+                ),
               ),
+              Container(
+                child: SimpleLineChart(_chartData(rank_point_list)),
+                height: 400,
+              )
+              //TODO: ListViewがおかしいので修正
+              /*ListView.builder(
+                  itemCount: 3,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text("${rank_point_list[index]}"),
+                      //title: Text('aaa'),
+                    );
+                  },
+                )*/
+            ],
+          );
+        }),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.insert_chart),
+              title: Text('戦績'),
             ),
-          ),
-          Container(
-            child: SimpleLineChart(_chartData(rank_point_list)),
-            height: 400,
-          )
-          //TODO: ListViewがおかしいので修正
-          /*ListView.builder(
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text("${rank_point_list[index]}"),
-                //title: Text('aaa'),
-              );
-            },
-          )*/
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.insert_chart),
-            title: Text('戦績'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.input),
-            title: Text('入力'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            title: Text('設定'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.equalizer),
-            title: Text('ランク'),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
+            BottomNavigationBarItem(
+              icon: Icon(Icons.input),
+              title: Text('入力'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              title: Text('設定'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.equalizer),
+              title: Text('ランク'),
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.amber[800],
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }
