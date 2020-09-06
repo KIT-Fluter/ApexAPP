@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'main_screen.dart';
+import 'presentation/battle_record/battle_record.dart';
 
 void main() {
   runApp(MyApp());
