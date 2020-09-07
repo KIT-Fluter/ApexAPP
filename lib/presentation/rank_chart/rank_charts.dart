@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../battle_record/battle_record.dart';
 import '../input/input_screen.dart';
+import '../rank_chart/rank_chart_model.dart';
 import '../setting/setting_screen.dart';
 
 class RankChartPage extends StatefulWidget {
@@ -53,10 +54,22 @@ class _RankChartPageState extends State<RankChartPage> {
     }
   }
 
+  List convertMapToArray(mapRunkResultArray) {
+    List<LinearSales> resultArray = [];
+    for (var i = 0; i < mapRunkResultArray.length; i++) {
+      resultArray.add(
+        LinearSales(i, mapRunkResultArray[i]["sum"]),
+      );
+    }
+    return resultArray;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => RankChartModel()..fetchRank(),
+      create: (_) => RankChartModel()
+        ..fetchRank()
+        ..fetchRankPointArray("shou"),
       child: Scaffold(
         appBar: AppBar(
           title: Text("ランク"),
@@ -73,25 +86,25 @@ class _RankChartPageState extends State<RankChartPage> {
                         decoration: InputDecoration(labelText: "ポイント"),
                         //TODO: 重たくなるので代替案を考える
                         onChanged: (value) {
-                          rankPoint = int.parse(value);
+                          this.rankPoint = int.parse(value);
                         },
                       ),
                       RaisedButton(
                           child: Text("戦績の追加"),
                           onPressed: () {
-                            model.addRank();
-                            //model.changeAA();
-                            //count++;
-                            //rankPointList.add([count, rankPoint]);
-                            //sum += rankPoint;
-                            //rankPointList.add(LinearSales(count - 1, sum));
+                            model.addRankPoint(
+                                this.rankPoint,
+                                "shou",
+                                model.latestSum + this.rankPoint,
+                                model.rankPointsArray);
                           }),
                     ],
                   ),
                 ),
               ),
               Container(
-                child: SimpleLineChart(_chartData(rankPointList)),
+                child: SimpleLineChart(
+                    _chartData(convertMapToArray(model.rankPointsArray))),
                 height: 400,
               )
               //TODO: ListViewがおかしいので修正
@@ -143,38 +156,9 @@ class SimpleLineChart extends StatelessWidget {
 
   SimpleLineChart(this.seriesList, {this.animate});
 
-  /// Creates a [LineChart] with sample data and no transition.
-  factory SimpleLineChart.withSampleData() {
-    return new SimpleLineChart(
-      _createSampleData(),
-      // Disable animations for image tests.
-      animate: false,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return new charts.LineChart(seriesList, animate: animate);
-  }
-
-  /// Create one series with sample hard coded data.
-  static List<charts.Series<LinearSales, int>> _createSampleData() {
-    final data = [
-      new LinearSales(0, 5),
-      new LinearSales(1, 25),
-      new LinearSales(2, 100),
-      new LinearSales(3, 75),
-    ];
-
-    return [
-      new charts.Series<LinearSales, int>(
-        id: 'Sales',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (LinearSales sales, _) => sales.year,
-        measureFn: (LinearSales sales, _) => sales.sales,
-        data: data,
-      )
-    ];
   }
 }
 
@@ -184,10 +168,6 @@ class LinearSales {
   final int sales;
 
   LinearSales(this.year, this.sales);
-}
-
-void createChartData(dynamic chartData, List rankList, int index) {
-  chartData.add(LinearSales(3000 + rankList[index][0], rankList[index][1]));
 }
 
 List<charts.Series<LinearSales, int>> _chartData(

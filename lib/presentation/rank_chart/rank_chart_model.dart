@@ -7,25 +7,46 @@ import '../../domein/rank.dart';
 class RankChartModel extends ChangeNotifier {
   String aa = "aaaaa!";
   List<Rank> ranks = [];
-
-  void changeAA() {
-    aa = "bb";
-    notifyListeners();
-  }
+  List rankPointsArray = [];
+  int sum = 0;
+  int latestSum = 0;
 
   Future fetchRank() async {
     await Firebase.initializeApp();
-    final QuerySnapshot docs1 =
+    final QuerySnapshot docs =
         await FirebaseFirestore.instance.collection("rank").get();
-    final ranks = docs1.docs[0].data()['title'];
-    //final ranks2 = docs1.docs.map((doc) => Rank(doc.data()["title"])).toList();
-    this.aa = ranks;
-    //this.ranks = ranks2;
+    this.aa = docs.docs[0].data()['title'];
+    notifyListeners();
+  }
+
+  Future fetchRankPointArray(String name) async {
+    await Firebase.initializeApp();
+    final DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection("rankPointArray")
+        .doc("shou")
+        .get();
+    this.rankPointsArray = doc.data()["rankResult"];
+    this.latestSum = doc.data()["latestSum"];
     notifyListeners();
   }
 
   Future addRank() async {
     FirebaseFirestore.instance.collection('rank').add({"title": "Legends"});
+    notifyListeners();
+  }
+
+  Future addRankPoint(
+      int point, String name, int latestSum, List beforeResultArray) async {
+    FirebaseFirestore.instance.collection('rankPointArray').doc(name).set(
+      {
+        "documentId": name,
+        "rankResult": [
+          ...beforeResultArray,
+          {"date": DateTime.now(), "point": point, "sum": latestSum}
+        ],
+        "latestSum": latestSum
+      },
+    );
     notifyListeners();
   }
 }
