@@ -49,8 +49,4 @@ class RankChartModel extends ChangeNotifier {
     );
     notifyListeners();
   }
-
-  Future deleteAllResult() {
-    //ここに削除の処理
-  }
 }
