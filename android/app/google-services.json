@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1006170502984",
+    "firebase_url": "https://apexapp-7442f.firebaseio.com",
+    "project_id": "apexapp-7442f",
+    "storage_bucket": "apexapp-7442f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1006170502984:android:e4e3111ad308883614e57d",
+        "android_client_info": {
+          "package_name": "com.example.apex_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1006170502984-0m92gnf9b56qnqh9t9osb3amsa91h8fk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFm80hCnVKPFOPpS5BtaA11P-JbDaTbu8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1006170502984-0m92gnf9b56qnqh9t9osb3amsa91h8fk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1006170502984-1t5q84v5647q5esdnirr1th1mcb711vg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.apexApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
