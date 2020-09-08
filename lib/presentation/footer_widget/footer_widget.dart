@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../setting/setting_screen.dart';
+import '../setting/setting_page.dart';
 
 class FooterWidget extends StatefulWidget {
   FooterWidget({Key key, this.title}) : super(key: key);

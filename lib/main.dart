@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'presentation/battle_record/battle_record.dart';
+import 'presentation/battle_record/battle_record_page.dart';
 
 void main() {
   runApp(MyApp());
