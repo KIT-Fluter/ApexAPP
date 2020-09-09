@@ -57,7 +57,7 @@ class _InputPageState extends State<InputPage> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => InputModel()..fetchRankPointArray("shou"),
+      create: (_) => InputModel()..fetchRankPointArray("guest"),
       child: Scaffold(
         appBar: AppBar(
           title: Text("入力"),
@@ -103,7 +103,7 @@ class _InputPageState extends State<InputPage> {
                   ),
                   //ランク用
                   TextFormField(
-                    decoration: InputDecoration(labelText: "ポイント"),
+                    decoration: InputDecoration(labelText: "ユーザー名"),
                     //TODO: 重たくなるので代替案を考える
                     onChanged: (value) {
                       rankPoint = int.parse(value);
@@ -114,7 +114,7 @@ class _InputPageState extends State<InputPage> {
                     onPressed: () {
                       model.addRankPoint(
                           this.rankPoint,
-                          "shou",
+                          "guest",
                           model.latestSum + this.rankPoint,
                           model.rankPointsArray);
                       Navigator.push(

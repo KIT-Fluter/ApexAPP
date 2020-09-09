@@ -66,7 +66,7 @@ class _RankChartPageState extends State<RankChartPage> {
     return ChangeNotifierProvider(
       create: (_) => RankChartModel()
         ..fetchRank()
-        ..fetchRankPointArray("shou"),
+        ..fetchRankPointArray("guest"),
       child: Scaffold(
         appBar: AppBar(
           title: Text("ランク"),
@@ -79,7 +79,14 @@ class _RankChartPageState extends State<RankChartPage> {
                 child: SimpleLineChart(
                     _chartData(convertMapToArray(model.rankPointsArray))),
                 height: 400,
-              )
+              ),
+              RaisedButton(
+                child: Text("戦歴を全て削除"),
+                onPressed: () {
+                  Navigator.pop(context);
+                  model.deleteAllRankPoint("guest");
+                },
+              ),
               //TODO: ListViewがおかしいので修正
               /*ListView.builder(
                   itemCount: 3,

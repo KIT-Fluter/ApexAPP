@@ -23,7 +23,7 @@ class RankChartModel extends ChangeNotifier {
     await Firebase.initializeApp();
     final DocumentSnapshot doc = await FirebaseFirestore.instance
         .collection("rankPointArray")
-        .doc("shou")
+        .doc("guest")
         .get();
     this.rankPointsArray = doc.data()["rankResult"];
     this.latestSum = doc.data()["latestSum"];
@@ -47,6 +47,20 @@ class RankChartModel extends ChangeNotifier {
         "latestSum": latestSum
       },
     );
+    notifyListeners();
+  }
+
+  Future deleteAllRankPoint(String name) {
+    FirebaseFirestore.instance.collection('rankPointArray').doc(name).set(
+      {
+        "documentId": name,
+        "rankResult": [
+          {"date": DateTime.now(), "point": 0, "sum": 0}
+        ],
+        "latestSum": 0
+      },
+    );
+    //FirebaseFirestore.instance.collection('rankPointArray').doc(name).delete();
     notifyListeners();
   }
 }

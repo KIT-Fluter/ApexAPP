@@ -15,10 +15,13 @@ class InputModel extends ChangeNotifier {
     await Firebase.initializeApp();
     final DocumentSnapshot doc = await FirebaseFirestore.instance
         .collection("rankPointArray")
-        .doc("shou")
+        .doc("guest")
         .get();
     this.rankPointsArray = doc.data()["rankResult"];
     this.latestSum = doc.data()["latestSum"];
+    if (this.rankPointsArray.length == 0) {
+      addRankPoint(0, "guest", 0, []);
+    }
     notifyListeners();
   }
 
